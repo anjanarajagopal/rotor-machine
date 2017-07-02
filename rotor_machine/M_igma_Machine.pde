@@ -1,5 +1,5 @@
-RotorSquare square1 = new RotorSquare(75,0,0,'S');
-RotorSquare square2 = new RotorSquare(75,0,0,'E');
+// RotorSquare square1 = new RotorSquare(75,0,0,'S');
+// RotorSquare square2 = new RotorSquare(75,0,0,'E');
 
 color darkBlue = color(11,39,73);
 color yellow = color(237,238,145);
@@ -7,8 +7,9 @@ color darkBrown = color(92,73,65);
 color lightBrown = color(207,158,95);
 color cream = color(249,238,226);
   
-Plug plug1 = new Plug(400, 400, 'A');
 Plug[] plugboard = new Plug[26];
+
+char rotor1Config, rotor2Config, rotor3Config;
 
 void setup() {
   size(800,600, P3D);
@@ -63,7 +64,6 @@ void draw() {
   // ----------------CONFIGURATION CONTROLS------------------
   
   
-  
   // -----------------ADVANCE ROTOR BUTTONS------------------
   fill(lightBrown);
   rect(675,150,150,100,7);
@@ -74,6 +74,7 @@ void draw() {
   triangle(660,125,660,175,625,150);
   triangle(690,125,690,175,725,150);
   // -----------------ADVANCE ROTOR BUTTONS------------------
+  
   
   // -----------------------PLUGBOARD------------------------
   fill(lightBrown);
@@ -87,10 +88,12 @@ void draw() {
   }
   // -----------------------PLUGBOARD------------------------
    
+   
+  // -------------------------WIRE---------------------------
+  
+  // -------------------------WIRE---------------------------
+   
   println(mouseX, mouseY);
- 
-  //fill(yellow);
-  //stroke(11,39,73);
   
   /*
   pushMatrix();
@@ -99,10 +102,8 @@ void draw() {
   square2.drawSquare();
   fill(255,0,0);
   text('E', 0,0);
-  
   popMatrix(); 
   */
-  
  /*
   pushMatrix();
   translate(400,300);
