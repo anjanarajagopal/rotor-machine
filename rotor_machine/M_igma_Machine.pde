@@ -57,8 +57,9 @@ void draw() {
   
   // starting configuration letters will go in these white boxes
   fill(cream);
-  rect(95,150,40,50);
-  rect(155,150,40,50);
+  rect(80,150,25,35);
+  rect(125,150,25,35);
+  rect(170,150,25,35);
   // ----------------CONFIGURATION CONTROLS------------------
   
   
