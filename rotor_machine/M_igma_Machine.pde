@@ -1,16 +1,19 @@
 // RotorSquare square1 = new RotorSquare(75,0,0,'S');
 // RotorSquare square2 = new RotorSquare(75,0,0,'E');
 
+PFont f; 
+
 color darkBlue = color(11,39,73);
 color yellow = color(237,238,145);
 color darkBrown = color(92,73,65);
 color lightBrown = color(207,158,95);
 color cream = color(249,238,226);
-
-PFont f; 
+  
 Plug[] plugboard = new Plug[26];
+Wire wire = new Wire(-10, -10); // initialize wire position to invalid position
 
 char rotor1Config, rotor2Config, rotor3Config;
+boolean isConfigSet = false;
 
 void setup() {
   size(800,600, P3D);
@@ -51,9 +54,30 @@ void setup() {
 void draw() {
   background(darkBlue);
   noStroke();
-  textFont(f);
   
-  text("Enter one character in each white text box below.", 25, 40);
+  // -----------------STARTING PROMPT LOGIC------------------
+  // only run the starting prompt if the configuration has not been set
+  if (isConfigSet == false) {
+    
+    // <KEY EVENT LOGIC>
+    textFont(f);
+    text("Enter one character in each white text box below.", 200, 40);
+    
+    //isConfigSet = true;
+     
+    rotor1Config = 'S';  // TEST
+    
+    // figure out which plug should be the starting point of the wire
+    for (int i=0; i<plugboard.length; i++) { 
+      if (plugboard[i].letter == rotor1Config) {
+        // set the endpoint of the wire equal to the starting point
+        wire.xstart = wire.xend = plugboard[i].xpos;
+        wire.ystart = wire.yend = plugboard[i].ypos;
+      }
+    }
+  }
+  // -----------------STARTING PROMPT LOGIC------------------
+  
   
   // ----------------CONFIGURATION CONTROLS------------------
   fill(lightBrown);
@@ -64,17 +88,8 @@ void draw() {
   // starting configuration letters will go in these white boxes
   fill(cream);
   rect(80,150,25,35);
-  fill(0);
-  text("A", 80, 150, 25, 35);
-  fill(cream);
   rect(125,150,25,35);
-  fill(0);
-  text("B", 125, 150, 25, 35);
-  fill(cream);
   rect(170,150,25,35);
-  fill(0);
-  text("C", 170, 150, 25, 35);
-  fill(cream);
   // ----------------CONFIGURATION CONTROLS------------------
   
   
@@ -104,6 +119,16 @@ void draw() {
    
    
   // -------------------------WIRE---------------------------
+  if (isConfigSet) {
+    
+    // TEST
+    wire.xend = plugboard[5].xpos;
+    wire.yend = plugboard[5].ypos;
+    
+    wire.drawStart();
+    wire.drawEnd();
+    wire.drawWire(); 
+  }
   
   // -------------------------WIRE---------------------------
    
