@@ -6,7 +6,8 @@ color yellow = color(237,238,145);
 color darkBrown = color(92,73,65);
 color lightBrown = color(207,158,95);
 color cream = color(249,238,226);
-  
+
+PFont f; 
 Plug[] plugboard = new Plug[26];
 
 char rotor1Config, rotor2Config, rotor3Config;
@@ -15,6 +16,7 @@ void setup() {
   size(800,600, P3D);
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
+  f = createFont("Arial", 16);
   
   // initialize plugboard
   plugboard[0] = new Plug(105,335,'Q');
@@ -49,6 +51,9 @@ void setup() {
 void draw() {
   background(darkBlue);
   noStroke();
+  textFont(f);
+  
+  text("Enter one character in each white text box below.", 25, 40);
   
   // ----------------CONFIGURATION CONTROLS------------------
   fill(lightBrown);
@@ -59,8 +64,17 @@ void draw() {
   // starting configuration letters will go in these white boxes
   fill(cream);
   rect(80,150,25,35);
+  fill(0);
+  text("A", 80, 150, 25, 35);
+  fill(cream);
   rect(125,150,25,35);
+  fill(0);
+  text("B", 125, 150, 25, 35);
+  fill(cream);
   rect(170,150,25,35);
+  fill(0);
+  text("C", 170, 150, 25, 35);
+  fill(cream);
   // ----------------CONFIGURATION CONTROLS------------------
   
   
