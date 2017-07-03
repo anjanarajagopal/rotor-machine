@@ -13,7 +13,8 @@ Plug[] plugboard = new Plug[26];
 Wire wire = new Wire(-10, -10); // initialize wire position to invalid position
 
 char rotor1Config, rotor2Config, rotor3Config;
-String typing, config;
+String typing = "";
+String config = "";
 boolean isConfigSet = false;
 
 void setup() {
@@ -62,10 +63,8 @@ void draw() {
     
     // <KEY EVENT LOGIC>
     textFont(f);
-    text("Enter a three-letter string below.", 200, 40);
+    text("Enter a three-letter string below.\n", 200, 40);
     text("String: " + typing, 200, 40);
-    
-    
     
     //isConfigSet = true;
      
@@ -81,11 +80,11 @@ void draw() {
     }
   }
   // -----------------STARTING PROMPT LOGIC------------------
-  char[] config_array = config.toCharArray();
-  rotor1Config = config_array[0];
-  rotor2Config = config_array[1];
-  rotor3Config = config_array[2];
-  
+  /*if(config != null) {
+       rotor1Config = config.charAt(0);
+       rotor2Config = config.charAt(1);
+       rotor3Config = config.charAt(2);
+  }*/
   
   // ----------------CONFIGURATION CONTROLS------------------
   fill(lightBrown);
@@ -171,10 +170,15 @@ void draw() {
 
 void keyPressed() {
    if(key == '\n') {
-      config = typing;  
+      config = typing;
+      rotor1Config = config.charAt(0);
+      rotor2Config = config.charAt(1);
+      rotor3Config = config.charAt(2);
+      typing = "";
    }
    else {
       typing = typing + key; 
    }
 }
+
 
