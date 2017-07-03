@@ -13,6 +13,7 @@ Plug[] plugboard = new Plug[26];
 Wire wire = new Wire(-10, -10); // initialize wire position to invalid position
 
 char rotor1Config, rotor2Config, rotor3Config;
+String typing, config;
 boolean isConfigSet = false;
 
 void setup() {
@@ -61,11 +62,14 @@ void draw() {
     
     // <KEY EVENT LOGIC>
     textFont(f);
-    text("Enter one character in each white text box below.", 200, 40);
+    text("Enter a three-letter string below.", 200, 40);
+    text("String: " + typing, 200, 40);
+    
+    
     
     //isConfigSet = true;
      
-    rotor1Config = 'S';  // TEST
+    //rotor1Config = 'S';  // TEST
     
     // figure out which plug should be the starting point of the wire
     for (int i=0; i<plugboard.length; i++) { 
@@ -77,6 +81,10 @@ void draw() {
     }
   }
   // -----------------STARTING PROMPT LOGIC------------------
+  char[] config_array = config.toCharArray();
+  rotor1Config = config_array[0];
+  rotor2Config = config_array[1];
+  rotor3Config = config_array[2];
   
   
   // ----------------CONFIGURATION CONTROLS------------------
@@ -88,8 +96,16 @@ void draw() {
   // starting configuration letters will go in these white boxes
   fill(cream);
   rect(80,150,25,35);
+  fill(0);
+  text(String.valueOf(rotor1Config), 80, 150, 25, 35);
+  fill(cream);
   rect(125,150,25,35);
+  fill(0);
+  text(String.valueOf(rotor2Config), 125, 150, 25, 35);
+  fill(cream);
   rect(170,150,25,35);
+  fill(0);
+  text(String.valueOf(rotor3Config), 170, 150, 25, 35);
   // ----------------CONFIGURATION CONTROLS------------------
   
   
@@ -152,3 +168,13 @@ void draw() {
   square2.drawSquare();
   popMatrix(); */
 }
+
+void keyPressed() {
+   if(key == '\n') {
+      config = typing;  
+   }
+   else {
+      typing = typing + key; 
+   }
+}
+
