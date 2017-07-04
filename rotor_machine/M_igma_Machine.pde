@@ -9,13 +9,15 @@ color darkBrown = color(92,73,65);
 color lightBrown = color(207,158,95);
 color cream = color(249,238,226);
   
-Plug[] plugboard = new Plug[26];
-Wire wire = new Wire(-10, -10); // initialize wire position to invalid position
-
 char rotor1Config, rotor2Config, rotor3Config;
 String typing = "";
 String config = "";
 boolean isConfigSet = false;
+int plugRadius = 20;
+int closestPlug, startingPlug;  
+  
+Plug[] plugboard = new Plug[26];
+Wire wire = new Wire(-10, -10); // initialize wire position to invalid position
 
 void setup() {
   size(800,600, P3D);
@@ -65,8 +67,6 @@ void draw() {
     textFont(f);
     text("Enter a three-letter string below.\n", 200, 40);
     text("String: " + typing, 200, 75);
-    
-    //isConfigSet = true;
      
     //rotor1Config = 'S';  // TEST
     
@@ -105,6 +105,8 @@ void draw() {
   rect(170,150,25,35);
   fill(0);
   text(String.valueOf(rotor3Config), 170, 150, 25, 35);
+  
+  isConfigSet = true;
   // ----------------CONFIGURATION CONTROLS------------------
   
   
@@ -136,15 +138,10 @@ void draw() {
   // -------------------------WIRE---------------------------
   if (isConfigSet) {
     
-    // TEST
-    wire.xend = plugboard[5].xpos;
-    wire.yend = plugboard[5].ypos;
-    
     wire.drawStart();
     wire.drawEnd();
     wire.drawWire(); 
   }
-  
   // -------------------------WIRE---------------------------
    
   //println(mouseX, mouseY);
@@ -169,18 +166,53 @@ void draw() {
 }
 
 void keyPressed() {
-   if(key == '\n') {
-      config = typing.toUpperCase();
-      rotor1Config = config.charAt(0);
-      println(rotor1Config);
-      rotor2Config = config.charAt(1);
-      println(rotor2Config);
-      rotor3Config = config.charAt(2);
-      println(rotor3Config);
-      println(typing);
-      typing = "";
-   }
-   else {
-      typing = typing + key; 
+   if (!isConfigSet) {
+      if(key == '\n') {
+        config = typing.toUpperCase();
+        rotor1Config = config.charAt(0);
+        println(rotor1Config);
+        rotor2Config = config.charAt(1);
+        println(rotor2Config);
+        rotor3Config = config.charAt(2);
+        println(rotor3Config);
+        println(typing);
+        typing = "";
+      }
+      else {
+        typing = typing + key; 
+      }
    }
 }
+
+void mouseDragged() {
+  if (isConfigSet && 
+      mouseX>wire.xend-plugRadius && mouseX<wire.xend+plugRadius &&  
+      mouseY>wire.yend-plugRadius && mouseY<wire.yend+plugRadius) {
+    wire.xend = mouseX;
+    wire.yend = mouseY;
+    closestPlug = -1;
+  }
+  wire.drawWire();
+}
+
+void mouseReleased() {
+  if (isConfigSet) {
+    if (mouseX>40 && mouseX<760 && mouseY>295 && mouseY<505) {
+      for (int i=0; i<plugboard.length; i++) {
+        if (mouseX>plugboard[i].xpos-plugRadius && mouseX<plugboard[i].xpos+plugRadius &&  
+            mouseY>plugboard[i].ypos-plugRadius && mouseY<plugboard[i].ypos+plugRadius) {
+            closestPlug = i;
+        }  
+      }
+    } 
+    
+    if (closestPlug == -1) {
+        closestPlug = startingPlug;
+      }
+      
+      wire.xend = plugboard[closestPlug].xpos;
+      wire.yend = plugboard[closestPlug].ypos;
+  }
+  
+  // swap two faces 
+} 
