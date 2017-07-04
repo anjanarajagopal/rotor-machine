@@ -64,7 +64,7 @@ void draw() {
     // <KEY EVENT LOGIC>
     textFont(f);
     text("Enter a three-letter string below.\n", 200, 40);
-    text("String: " + typing, 200, 40);
+    text("String: " + typing, 200, 75);
     
     //isConfigSet = true;
      
@@ -147,7 +147,7 @@ void draw() {
   
   // -------------------------WIRE---------------------------
    
-  println(mouseX, mouseY);
+  //println(mouseX, mouseY);
   
   /*
   pushMatrix();
@@ -170,15 +170,17 @@ void draw() {
 
 void keyPressed() {
    if(key == '\n') {
-      config = typing;
+      config = typing.toUpperCase();
       rotor1Config = config.charAt(0);
+      println(rotor1Config);
       rotor2Config = config.charAt(1);
+      println(rotor2Config);
       rotor3Config = config.charAt(2);
+      println(rotor3Config);
+      println(typing);
       typing = "";
    }
    else {
       typing = typing + key; 
    }
 }
-
-
