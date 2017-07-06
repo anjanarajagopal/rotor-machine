@@ -1,16 +1,23 @@
 // RotorSquare square1 = new RotorSquare(75,0,0,'S');
 // RotorSquare square2 = new RotorSquare(75,0,0,'E');
 
+PFont f; 
+
 color darkBlue = color(11,39,73);
 color yellow = color(237,238,145);
 color darkBrown = color(92,73,65);
 color lightBrown = color(207,158,95);
 color cream = color(249,238,226);
-
-PFont f; 
-Plug[] plugboard = new Plug[26];
-
+  
 char rotor1Config, rotor2Config, rotor3Config;
+String typing = "";
+String config = "";
+boolean isConfigSet = false;
+int plugRadius = 20;
+int closestPlug, startingPlug;  
+  
+Plug[] plugboard = new Plug[26];
+Wire wire = new Wire(-10, -10); // initialize wire position to invalid position
 
 void setup() {
   size(800,600, P3D);
@@ -51,9 +58,33 @@ void setup() {
 void draw() {
   background(darkBlue);
   noStroke();
-  textFont(f);
   
-  text("Enter one character in each white text box below.", 25, 40);
+  // -----------------STARTING PROMPT LOGIC------------------
+  // only run the starting prompt if the configuration has not been set
+  if (isConfigSet == false) {
+    
+    // <KEY EVENT LOGIC>
+    textFont(f);
+    text("Enter a three-letter string below.\n", 200, 40);
+    text("String: " + typing, 200, 75);
+     
+    //rotor1Config = 'S';  // TEST
+    
+    // figure out which plug should be the starting point of the wire
+    for (int i=0; i<plugboard.length; i++) { 
+      if (plugboard[i].letter == rotor1Config) {
+        // set the endpoint of the wire equal to the starting point
+        wire.xstart = wire.xend = plugboard[i].xpos;
+        wire.ystart = wire.yend = plugboard[i].ypos;
+      }
+    }
+  }
+  // -----------------STARTING PROMPT LOGIC------------------
+  /*if(config != null) {
+       rotor1Config = config.charAt(0);
+       rotor2Config = config.charAt(1);
+       rotor3Config = config.charAt(2);
+  }*/
   
   // ----------------CONFIGURATION CONTROLS------------------
   fill(lightBrown);
@@ -65,16 +96,17 @@ void draw() {
   fill(cream);
   rect(80,150,25,35);
   fill(0);
-  text("A", 80, 150, 25, 35);
+  text(String.valueOf(rotor1Config), 80, 150, 25, 35);
   fill(cream);
   rect(125,150,25,35);
   fill(0);
-  text("B", 125, 150, 25, 35);
+  text(String.valueOf(rotor2Config), 125, 150, 25, 35);
   fill(cream);
   rect(170,150,25,35);
   fill(0);
-  text("C", 170, 150, 25, 35);
-  fill(cream);
+  text(String.valueOf(rotor3Config), 170, 150, 25, 35);
+  
+  isConfigSet = true;
   // ----------------CONFIGURATION CONTROLS------------------
   
   
@@ -104,10 +136,15 @@ void draw() {
    
    
   // -------------------------WIRE---------------------------
-  
+  if (isConfigSet) {
+    
+    wire.drawStart();
+    wire.drawEnd();
+    wire.drawWire(); 
+  }
   // -------------------------WIRE---------------------------
    
-  println(mouseX, mouseY);
+  //println(mouseX, mouseY);
   
   /*
   pushMatrix();
@@ -127,3 +164,55 @@ void draw() {
   square2.drawSquare();
   popMatrix(); */
 }
+
+void keyPressed() {
+   if (!isConfigSet) {
+      if(key == '\n') {
+        config = typing.toUpperCase();
+        rotor1Config = config.charAt(0);
+        println(rotor1Config);
+        rotor2Config = config.charAt(1);
+        println(rotor2Config);
+        rotor3Config = config.charAt(2);
+        println(rotor3Config);
+        println(typing);
+        typing = "";
+      }
+      else {
+        typing = typing + key; 
+      }
+   }
+}
+
+void mouseDragged() {
+  if (isConfigSet && 
+      mouseX>wire.xend-plugRadius && mouseX<wire.xend+plugRadius &&  
+      mouseY>wire.yend-plugRadius && mouseY<wire.yend+plugRadius) {
+    wire.xend = mouseX;
+    wire.yend = mouseY;
+    closestPlug = -1;
+  }
+  wire.drawWire();
+}
+
+void mouseReleased() {
+  if (isConfigSet) {
+    if (mouseX>40 && mouseX<760 && mouseY>295 && mouseY<505) {
+      for (int i=0; i<plugboard.length; i++) {
+        if (mouseX>plugboard[i].xpos-plugRadius && mouseX<plugboard[i].xpos+plugRadius &&  
+            mouseY>plugboard[i].ypos-plugRadius && mouseY<plugboard[i].ypos+plugRadius) {
+            closestPlug = i;
+        }  
+      }
+    } 
+    
+    if (closestPlug == -1) {
+        closestPlug = startingPlug;
+      }
+      
+      wire.xend = plugboard[closestPlug].xpos;
+      wire.yend = plugboard[closestPlug].ypos;
+  }
+  
+  // swap two faces 
+} 
