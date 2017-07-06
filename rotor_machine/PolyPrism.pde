@@ -53,8 +53,8 @@ class PolyPrism {
 		prism.addChild(bot);
 
 		//lateral faces
-  PShape face;
-  for(int i = 0; i < faces; i++) {
+		PShape face;
+		for(int i = 0; i < faces; i++) {
 
       face = createShape();
 
