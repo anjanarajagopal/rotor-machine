@@ -71,16 +71,15 @@ class Rotor extends PolyPrism {
 	}
 
 	private void _shuffle(char[] array) {
-    int index;
+		int index;
 		char temp;
-    Random random = new Random();
-    for (int i = array.length - 1; i > 0; i--)
-    {
-        index = random.nextInt(i + 1);
-        temp = array[index];
-        array[index] = array[i];
-        array[i] = temp;
-    }
+		Random random = new Random();
+		for (int i = array.length - 1; i > 0; i--) {
+				index = random.nextInt(i + 1);
+				temp = array[index];
+				array[index] = array[i];
+				array[i] = temp;
+		}
 	}
 
 	private int _index_of(char[] array, char c) {
