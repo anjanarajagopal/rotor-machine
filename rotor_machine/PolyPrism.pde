@@ -56,23 +56,23 @@ class PolyPrism {
 		PShape face;
 		for(int i = 0; i < faces; i++) {
 
-      face = createShape();
+			face = createShape();
 
-      face.beginShape();
+			face.beginShape();
 			
 
-      face.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, height/2, 1,1);
-      face.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, -height/2, 0,1);
-      face.vertex(cos(radians(360f/faces * (i + 1))) * radius, sin(radians(360f/faces * (i + 1))) * radius, -height/2,0,0);
-      face.vertex(cos(radians(360f/faces * (i + 1))) * radius, sin(radians(360f/faces * (i + 1))) * radius, height/2, 1,0);
+			face.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, height/2, 1,1);
+			face.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, -height/2, 0,1);
+			face.vertex(cos(radians(360f/faces * (i + 1))) * radius, sin(radians(360f/faces * (i + 1))) * radius, -height/2,0,0);
+			face.vertex(cos(radians(360f/faces * (i + 1))) * radius, sin(radians(360f/faces * (i + 1))) * radius, height/2, 1,0);
 
-      face.endShape();
-      
-      face.setFill(fill);
-      //shape.noFill();
-      face.setStroke(stroke);
-      prism.addChild(face);
-    }
+			face.endShape();
+			
+			face.setFill(fill);
+			//shape.noFill();
+			face.setStroke(stroke);
+			prism.addChild(face);
+		}
 		
 	}
 
