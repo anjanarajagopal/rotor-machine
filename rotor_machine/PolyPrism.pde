@@ -1,14 +1,19 @@
 class PolyPrism {
 
-	float height, faces, radius;
-	PVector pos;
-	PShape prism;
+	protected float height, faces, radius;
+	protected PVector pos;
+	protected PShape prism;
+	protected int stroke;
+	protected int fill;
 
 	PolyPrism(float faces, float radius, float height) {
 		this.height = height;
 		this.faces = faces;
 		this.radius = radius;
 		this.pos = new PVector(0,0,0);
+		this.stroke = color(0);
+		this.fill = color(255);
+
 		_init();
 	}
 
@@ -17,49 +22,58 @@ class PolyPrism {
 		this.radius = radius;
 		this.height = 50;
 		this.pos = new PVector(0,0,0);
+
 		_init();
 	}
 
 	protected void _init() {
 		prism = createShape(GROUP);
-		prism.setFill(color(255));
 		//shape.noFill();
-		prism.setStroke(color(255));
-//
-//		//top	face
-//		PShape top = createShape();
-//		top.beginShape();
-//		for( int i = 0; i < faces; i++ ) {
-//			top.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, height/2);
-//		}
-//		top.endShape();
-//		prism.addChild(top, 1);
-//
-//		//bottom face
-//		PShape bot = createShape();
-//		bot.beginShape();
-//		for( int i = 0; i < faces; i++ ) {
-//			prism.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, height/2);
-//		}
-//		bot.endShape();
-//		prism.addChild(bot, 2);
-//
-		//lateral faces
-		for(int i = 0; i < faces; i++) {
 
-			PShape face = createShape();
-
-			face.beginShape();
-
-			face.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, height/2);
-			face.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, -height/2);
-			face.vertex(cos(radians(360f/faces * (i + 1))) * radius, sin(radians(360f/faces * (i + 1))) * radius, height/2);
-			face.vertex(cos(radians(360f/faces * (i + 1))) * radius, sin(radians(360f/faces * (i + 1))) * radius, -height/2);
-
-			face.endShape();
-			
-			prism.addChild(face, 3 + i);
+		//top	face
+		PShape top = createShape();
+		top.beginShape();
+		for( int i = 0; i < faces + 1; i++ ) {
+			top.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, height/2);
 		}
+		top.endShape();
+		top.setFill(fill);
+		top.setStroke(stroke);
+		prism.addChild(top);
+
+		//bottom face
+		PShape bot = createShape();
+		bot.beginShape();
+		for( int i = 0; i < faces + 1; i++ ) {
+			bot.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, -height/2);
+		}
+		bot.endShape();
+		bot.setFill(fill);
+		bot.setStroke(stroke);
+		prism.addChild(bot);
+
+		//lateral faces
+  PShape face;
+  for(int i = 0; i < faces; i++) {
+
+      face = createShape();
+
+      face.beginShape();
+			
+
+      face.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, height/2, 1,1);
+      face.vertex(cos(radians(360f/faces * i)) * radius, sin(radians(360f/faces * i)) * radius, -height/2, 0,1);
+      face.vertex(cos(radians(360f/faces * (i + 1))) * radius, sin(radians(360f/faces * (i + 1))) * radius, -height/2,0,0);
+      face.vertex(cos(radians(360f/faces * (i + 1))) * radius, sin(radians(360f/faces * (i + 1))) * radius, height/2, 1,0);
+
+      face.endShape();
+      
+      face.setFill(fill);
+      //shape.noFill();
+      face.setStroke(stroke);
+      prism.addChild(face);
+    }
+		
 	}
 
 	public void scale(float s) {
@@ -118,6 +132,34 @@ class PolyPrism {
 		prism.addChild( s );
 	}
 
+	PShape getChild(int idx) {
+		return prism.getChild(idx);
+	}
+
+	public void setStroke(int c) {
+		PShape face;
+		for( int i = 0; i < faces + 2; i++) {
+			face = prism.getChild(i);
+			face.setStroke(c);
+		}
+	}
+
+	public int getStroke(){
+		return stroke;
+	}
+
+	public void setFill(int c) {
+		PShape face;
+		for( int i = 0; i < faces + 2; i++) {
+			face = prism.getChild(i);
+			face.setFill(c);
+		}
+	}
+
+	public int getFill() {
+		return fill;
+	}	
+
 	public void resetMatrix() {
 		prism.resetMatrix();
 	}
@@ -127,5 +169,3 @@ class PolyPrism {
 	}
 
 }
-
-//54365
