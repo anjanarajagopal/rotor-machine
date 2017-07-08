@@ -18,6 +18,7 @@ int closestPlug, startingPlug;
   
 Plug[] plugboard = new Plug[26];
 Wire wire = new Wire(-10, -10); // initialize wire position to invalid position
+Rotor rl, rc, rr;
 
 void setup() {
   size(800,600, P3D);
@@ -25,6 +26,23 @@ void setup() {
   textAlign(CENTER, CENTER);
   f = createFont("Arial", 16);
   
+	//here comes the rotors
+	rl = new Rotor(true);
+	rl.setFill(darkBrown);
+	rl.setStroke(lightBrown);
+	rl.setPos(width/2 - 60, 165);
+
+	rc = new Rotor(false);
+	rc.setFill(darkBrown);
+	rc.setStroke(lightBrown);
+	rc.setPos(width/2, 165);
+
+	rr = new Rotor(false);
+	rr.setFill(darkBrown);
+	rr.setStroke(lightBrown);
+	rr.setPos(width/2 + 60, 165);
+
+
   // initialize plugboard
   plugboard[0] = new Plug(105,335,'Q');
   plugboard[1] = new Plug(173.33,335,'W');
@@ -163,6 +181,7 @@ void draw() {
   rotateX(PI/4);
   square2.drawSquare();
   popMatrix(); */
+	rl.draw(); rc.draw(); rr.draw();
 }
 
 void keyPressed() {
