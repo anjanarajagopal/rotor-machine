@@ -1,4 +1,4 @@
-int plugRadius = 20;
+int plugRad=20;
 
 class Wire {
   float xstart, ystart, xend, yend;
@@ -10,12 +10,12 @@ class Wire {
   
   void drawStart() {
     fill(lightBrown);
-    ellipse(xstart, ystart, plugRadius, plugRadius);
+    ellipse(xstart, ystart, plugRad, plugRadius);
   }
   
   void drawEnd() {
     fill(lightBrown);
-    ellipse(xend, yend, plugRadius, plugRadius);
+    ellipse(xend, yend, plugRad, plugRadius);
   }
   
   void drawWire() {

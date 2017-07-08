@@ -12,7 +12,7 @@ class Rotor extends PolyPrism {
 
 		super(26f, 100f, 50f); 
 
-		theta = 0;
+		theta = 195;
 		l = 0;
 		route = new char[(int)faces];
 		for( int i = 0; i < (int)faces; i++ ) {
@@ -29,6 +29,28 @@ class Rotor extends PolyPrism {
 
 	}
 
+	Rotor(boolean random, char start) {
+
+		super(26f, 100f, 50f); 
+
+		theta = 195;
+		l = 0;
+		route = new char[(int)faces];
+		for( int i = 0; i < (int)faces; i++ ) {
+			route[i] = _itoalpha(i);
+		}
+
+		if( random ) {
+			_shuffle(route);
+			_shuffle(route);
+		}
+
+		this._wheel_init();
+		this.rotateY(PI/2);
+
+		l = _index_of(route, start);
+	}
+
 	private void _wheel_init() {
 
 		for( int i = 0; i < faces; i++ ) {
@@ -41,7 +63,7 @@ class Rotor extends PolyPrism {
 	
 		float w = 2*radius*cos(radians(90f - (360f/(faces*2))));
 		float h = this.height;
-		PFont f	= createFont("SansSerif", 10);
+		PFont f	= createFont("SansSerif", 12, true);
 		PGraphics pg;
 
 		char letter = route[face_index];
@@ -118,6 +140,16 @@ class Rotor extends PolyPrism {
 
 	public int encode( char c ) {
 		return route[_alnumtoi(c)];
+	}
+
+	public void setFill(int c) {
+		super.setFill(c);
+		this._wheel_init();
+	}
+
+	public void setStroke(int c) {
+		super.setStroke(c);
+		this._wheel_init();
 	}
 
 	public void draw() {

@@ -137,6 +137,7 @@ class PolyPrism {
 	}
 
 	public void setStroke(int c) {
+		stroke = c;
 		PShape face;
 		for( int i = 0; i < faces + 2; i++) {
 			face = prism.getChild(i);
@@ -150,6 +151,7 @@ class PolyPrism {
 
 	public void setFill(int c) {
 		PShape face;
+		fill = c;
 		for( int i = 0; i < faces + 2; i++) {
 			face = prism.getChild(i);
 			face.setFill(c);
