@@ -79,6 +79,13 @@ void draw() {
   
   // -----------------STARTING PROMPT LOGIC------------------
   // only run the starting prompt if the configuration has not been set
+	if( config.length() < 3 ) {
+		//add startup config stuff
+	}
+	else {
+		//add runtime stuff
+	}
+
   if (isConfigSet == false) {
     
     // <KEY EVENT LOGIC>
@@ -124,7 +131,7 @@ void draw() {
   fill(0);
   text(String.valueOf(rotor3Config), 170, 150, 25, 35);
   
-  isConfigSet = true;
+  //isConfigSet = true;
   // ----------------CONFIGURATION CONTROLS------------------
   
   

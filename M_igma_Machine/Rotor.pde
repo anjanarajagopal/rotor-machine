@@ -87,7 +87,7 @@ class Rotor extends PolyPrism {
 		return (char)(65 + (n + l)%(int)faces);
 	}
 
-	private int _alnumtoi(char a) {
+	private int _alphatoi(char a) {
 		int i = (int)a;
 		return (a - 65 + l) % (int)faces;
 	}
@@ -118,8 +118,8 @@ class Rotor extends PolyPrism {
 	}
 
 	public void swap(char a, char b) {
-		int i_a = _alnumtoi(a);
-		int i_b = _alnumtoi(a);
+		int i_a = _alphatoi(a);
+		int i_b = _alphatoi(a);
 		char temp = route[i_a];
 
 		route[i_a] = route[i_b];
@@ -139,7 +139,11 @@ class Rotor extends PolyPrism {
 	}
 
 	public int encode( char c ) {
-		return route[_alnumtoi(c)];
+		return route[_alphatoi(c)];
+	}
+
+	public int decode( char c ) {
+			return _itoalpha(_index_of(c));
 	}
 
 	public void setFill(int c) {
