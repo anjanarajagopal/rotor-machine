@@ -143,7 +143,7 @@ class Rotor extends PolyPrism {
 	}
 
 	public int decode( char c ) {
-			return _itoalpha(_index_of(c));
+			return _itoalpha(_index_of(route ,c));
 	}
 
 	public void setFill(int c) {
