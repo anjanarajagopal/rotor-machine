@@ -1,7 +1,7 @@
-int plugRad=20;
-
 class Wire {
-  float xstart, ystart, xend, yend;
+  public float xstart, ystart, xend, yend;
+  boolean connected;
+  boolean drag;
   
   Wire(float x, float y) {
     xstart = xend = x;
@@ -10,17 +10,35 @@ class Wire {
   
   void drawStart() {
     fill(lightBrown);
-    ellipse(xstart, ystart, plugRad, plugRadius);
+    ellipse(xstart, ystart, plugRadius, plugRadius);
   }
   
   void drawEnd() {
     fill(lightBrown);
-    ellipse(xend, yend, plugRad, plugRadius);
+    ellipse(xend, yend, plugRadius, plugRadius);
   }
   
   void drawWire() {
     stroke(lightBrown);
     strokeWeight(10);
     line(xstart, ystart, xend, yend);
+    //println(xstart, ystart, xend, yend);
+  }
+  void connect() {
+    connected = true;
+    drag = false;
+  }
+  void disconnect() {
+    connected = false;
+    drag = false;
+  }
+  boolean isConnected() {
+    return connected;
+  }
+  boolean isDragging() {
+    return drag;
+  }
+  void startDrag() {
+    drag = true;
   }
 };
