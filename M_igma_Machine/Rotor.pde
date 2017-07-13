@@ -6,7 +6,9 @@ class Rotor extends PolyPrism {
 	//thing that stores letters		
 	int l;
 	float theta;
+  int start;
 	char route[];
+  char route_orig[];
 
 	Rotor(boolean random) {
 
@@ -15,6 +17,7 @@ class Rotor extends PolyPrism {
 		theta = 195;
 		l = 0;
 		route = new char[(int)faces];
+    route_orig = new char[(int)faces];
 		for( int i = 0; i < (int)faces; i++ ) {
 			route[i] = _itoalpha(i);
 		}
@@ -23,7 +26,9 @@ class Rotor extends PolyPrism {
 			_shuffle(route);
 			_shuffle(route);
 		}
-
+    for( int i = 0; i < (int)faces; i++ ) {
+      route_orig[i] = route[i];
+    }
 		this._wheel_init();
 		this.rotateY(PI/2);
 
@@ -33,7 +38,6 @@ class Rotor extends PolyPrism {
 
 		super(26f, 100f, 50f); 
 
-		theta = 195;
 		l = 0;
 		route = new char[(int)faces];
 		for( int i = 0; i < (int)faces; i++ ) {
@@ -45,6 +49,7 @@ class Rotor extends PolyPrism {
 			_shuffle(route);
 		}
 
+    theta = 195;
 		this._wheel_init();
 		this.rotateY(PI/2);
 
@@ -89,7 +94,7 @@ class Rotor extends PolyPrism {
 
 	private int _alphatoi(char a) {
 		int i = (int)a;
-		return (a - 65 + l) % (int)faces;
+		return (i - 65 + l) % (int)faces;
 	}
 
 	private void _shuffle(char[] array) {
@@ -113,17 +118,28 @@ class Rotor extends PolyPrism {
 		return -1;
 	}
 
+  private int _index_of_s(char[] array, char c) {
+    for(int i = 0; i < faces; i++) {
+      if( array[i] == c ) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
 	private float _posToAng(int n) {
-		return (360/faces) * n;
+		return (360f/faces) * n;
 	}
 
 	public void swap(char a, char b) {
-		int i_a = _alphatoi(a);
-		int i_b = _alphatoi(a);
+		int i_a = _index_of(route, a);
+		int i_b = _index_of(route, b);
 		char temp = route[i_a];
 
 		route[i_a] = route[i_b];
 		route[i_b] = temp;
+    _redraw(i_a);
+    _redraw(i_b);
 	}
 
 	public void fwd(int n) {
@@ -131,19 +147,26 @@ class Rotor extends PolyPrism {
 	}
 
 	public void rev(int n) {
-		l = (l + (26 - n)) % (int)faces ;
+		l = (l + (26 - n)) % (int)faces;
 	}
 
 	public void reset() {
-		l = 0;
+		l = start;
+    for( int i = 0; i < (int)faces; i++ ) {
+      route[i] = route_orig[i];
+    }
+    _wheel_init();
 	}
 
-	public int encode( char c ) {
-		return route[_alphatoi(c)];
+	public char encode( char c ) {
+		return route[_alphatoi(java.lang.Character.toUpperCase(c))];
 	}
 
-	public int decode( char c ) {
-			return _itoalpha(_index_of(route ,c));
+	public char decode( char c ) {
+      println("fdksjfl");
+			int i = _index_of_s(route, java.lang.Character.toUpperCase(c)) - l;
+      println((65 + (i + 26)%(int)faces));
+      return (char)(65 + (i + 26)%(int)faces);
 	}
 
 	public void setFill(int c) {
@@ -155,9 +178,14 @@ class Rotor extends PolyPrism {
 		super.setStroke(c);
 		this._wheel_init();
 	}
+  
+  public void setDefault(char c) {
+    start = _index_of(route, c);
+    reset();
+  }
 
 	public void draw() {
-		float d0 = (_posToAng(l) - theta + 360) % 360;
+		float d0 = (-_posToAng(l) - theta + 360) % 360;
 		theta += d0*0.05;
 		theta %= 360;
 		this.rotateX(radians(d0*0.05));
